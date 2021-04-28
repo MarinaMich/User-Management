@@ -28,13 +28,18 @@ require_once 'authorization.php';
                 <li class="nav-item">
                     <a class="nav-link" href="index.php">Главная</a>
                 </li>
-                <!-- если в профиль зашел админ или собственник профиля-->
-                <?php if($admin === true || $user_login === $id_profile) :?>
+                <!-- если в профиль зашел собственник профиля-->
+                <?php if($user_login === $id_profile) :?>
                 <li class="nav-item">
                     <a class="nav-link" href="changepassword.php?id=<?php echo $user->data()->id;?>">Изменить пароль</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="profile.php?id=<?php echo $user->data()->id;?>">Изменить профиль</a>
+                </li>
+                <?php endif;?>
+                <?php if($admin): ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="admin/index.php">Управление пользователями</a>
                 </li>
                 <?php endif;?>
             </ul>
@@ -62,10 +67,10 @@ require_once 'authorization.php';
 
                 <tbody>
                     <tr>
-                        <td><?php echo $user_profile->id;?></td>
-                        <td><?php echo $user_profile->user_name;?></td>
-                        <td><?php echo date('d-m-Y', $user_profile->date_reg);?></td>
-                        <td><?php echo $user_profile->status;?></td>
+                        <td><?php echo $user->data()->id;?></td>
+                        <td><?php echo $user->data()->user_name;?></td>
+                        <td><?php echo date('d-m-Y', $user->data()->date_reg);?></td>
+                        <td><?php echo $user->data()->status;?></td>
                     </tr>
                 </tbody>
             </table>

@@ -146,5 +146,11 @@ class User {
 		}
 		return false;
 	}
+
+	public function delete($where = []) {
+		$this->db->delete('users', $where);
+	}
+
+	
 }
 

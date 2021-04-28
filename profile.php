@@ -2,37 +2,43 @@
 require_once 'init.php';
 require_once 'authorization.php';
 
-if(Input::exists()) {
-  if(Token::check(Input::get('token'))){
-    $validate = new Validate();
-    $validate->check($_POST, [
-      'user_name' => [
-        'required' => true,
-        'min' => 2,
-        //'max' => 10
-      ],
-      'email' => [
-        'required' => true,
-        'email' => true,
-      ],
-      'status' => ['max' => 200]
-    ]);
-
-    if($validate->passed()) {
-     $user->update([
-        'user_name' => Input::get('user_name'),
-        'email' => Input::get('email'),
-        'status' => Input::get('status')
-      ]);
-        Session::flash('success', 'Профиль обновлен');
-
-      return Redirect::to('profile.php?id='. $user->data()->id);
-      
-    } else {
-      $errors = $validate->errors();
-    }
-  }
+if($user_login !== $id_profile) {
+    Redirect::to('index.php');
 }
+
+if(Input::exists()) {
+    if(Token::check(Input::get('token'))){
+        $validate = new Validate();
+        $validate->check($_POST, [
+            'user_name' => [
+                'required' => true,
+                'min' => 2,
+                 //'max' => 10
+            ],
+            'email' => [
+                'required' => true,
+                'email' => true,
+            ],
+            'status' => ['max' => 200]
+        ]);
+
+        if($validate->passed()) {
+            $user->update([
+                'user_name' => Input::get('user_name'),
+                'email' => Input::get('email'),
+                'status' => Input::get('status')
+            ]);
+            Session::flash('success', 'Профиль обновлен');
+
+            return Redirect::to('profile.php?id='. $user->data()->id);
+              
+        } else {
+            $errors = $validate->errors();
+        }
+    }
+}
+
+
 
 
 ?>
@@ -61,12 +67,23 @@ if(Input::exists()) {
             <li class="nav-item">
               <a class="nav-link" href="index.php">Главная</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Управление пользователями</a>
-            </li>
+            <!-- если в профиль зашел собственник профиля-->
+                <?php if($user_login === $id_profile) :?>
+                <li class="nav-item">
+                    <a class="nav-link" href="changepassword.php?id=<?php echo $user->data()->id;?>">Изменить пароль</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="profile.php?id=<?php echo $user->data()->id;?>">Изменить профиль</a>
+                </li>
+                <?php endif;?>
           </ul>
 
           <ul class="navbar-nav">
+            <?php if($user->isLoggedIn()): ?>
+            <li class="nav-item">
+              <a href="user_profile.php?id=<? echo $user->data()->id;?>" class="nav-link">Привет, <?php echo $user->data()->user_name;?></a>
+            </li>
+            <?php endif;?>
             <li class="nav-item">
                 <a href="logout.php" class="nav-link">Выйти</a>
             </li>

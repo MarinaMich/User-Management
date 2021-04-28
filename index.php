@@ -31,6 +31,11 @@ $users = $user->get_users();
           <li class="nav-item">
             <a class="nav-link" href="index.php">Главная</a>
           </li>
+          <?php if($user->hasPermissions('admin')): ?>
+            <li class="nav-item">
+              <a class="nav-link" href="admin/index.php">Управление пользователями</a>
+            </li>
+          <?php endif;?>
         </ul>
         <?php if($user->isLoggedIn()): ?>
           <ul class="navbar-nav">
