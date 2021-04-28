@@ -8,7 +8,6 @@ require_once 'classes/Input.php';
 require_once 'classes/Token.php';
 require_once 'classes/Session.php';
 require_once 'classes/User.php';
-//require_once 'classes/Users.php';
 require_once 'classes/Redirect.php';
 require_once 'classes/Cookie.php';
 

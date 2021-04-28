@@ -1,10 +1,6 @@
 <?php
 require_once 'init.php';
-//var_dump($_POST);
-//var_dump(Input::get('password'));
 
-//$users = Database::getInstance()->get('users',['email', '=', $email]);
-//var_dump($users);
 if(Input::exists()) {
   if(Token::check(Input::get('token'))) {
   
